@@ -2,7 +2,7 @@
 
 A simple **REST API built with Node.js and Express.js** for managing and retrieving student information.
 
-This project is part of my journey toward becoming stronger in **backend development  **. The main goal was to practice creating API routes, working with request parameters, filtering data, and returning JSON responses.
+This project is part of my journey toward becoming stronger in **backend development**. The main goal was to practice creating API routes, working with request parameters, filtering data, and returning JSON responses.
 
 ---
 
