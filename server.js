@@ -1,85 +1,27 @@
 import express, { response } from 'express';
-import {students} from './data.js';
+import mongoose from 'mongoose'
+import userRouter from './route/userRoute.js';
+
+const compass_string = "mongodb://localhost:27017/darby"
+const atlas_string = "mongodb+srv://darbychic26_db_user:darby@cluster0.ntc6c3h.mongodb.net/?appName=Cluster0"
+
+import dns from 'dns'
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
+mongoose.connect(atlas_string)
+    .then (() => console.log ("Mongo connected"))
+    .catch(err => console.log("Mongo connection error", err))
 
 const app = express();
 const port = 5555;
 
+app.use(express.json())
 
-//name as the params
-app.get ("/students", (request, response) =>{
-    response.status(200).json({
-        message : "Catalog of students",
-        data : students,
-    });
-});
-
-//name as a param
-app.get("/students/name/:name", (request, response) => {
-    const student = students.find((el) => el.name === request.params.name)
-    if (student){
-        response.status(200).json({
-            message : "Student name found",
-            data : students,
-        })
-    }else {
-        response.status(400).json({
-            message : "Student not found",
-            data : students,
-        });
-    };
-});
-
-
-//id as a params
-app.get("/students/id/:id", (request, response)=> {
-    const userId = parseInt(request.params.id);
-    const studentId = students.find((el) => el.id === userId);
-    if (studentId){
-       response.status(200).json({
-        message : "Student found", 
-        data : studentId
-    })
-    }else{
-      response.status(400).json({
-        message : "students not found",
-        data : students,
-       });
-    };
+app.get('/', (req, res ) => {
+    res.send('Server is running')
 })
-//gender as  param
-app.get("/students/gender/:gender", (request, response) =>{
-    const userGender = request.params.gender;
-    const filteredStudent = students.filter((el) => el.gender === userGender);
-    if (students.length > 0){
-      response.status(200).json({
-        message : `${userGender} students`,
 
-        data : filteredStudent,
-    });
-    }else{
-      response.status(400).json({
-        message : "student not found",
-        data : students
-       });
-    };
-});
-
-//class as a param
-app.get("/students/class/:class", (request, response) => {
-    const class_name = request.params.class;
-    const filteredStudent =  students.filter((el)=> el.class === class_name);
-    if(students.length > 0){
-      response.status(200).json({
-        message : `student found `,
-        data : filteredStudent
-    });
-    }else{
-      response.status(400).json({
-        message : "Class not found",
-        data : students
-      });
-    };
-});
+app.use('/:users',userRouter)
 app.listen (port, () => {
     console.log(`server is on and running on port ${port}`);
 
