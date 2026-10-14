@@ -20,7 +20,7 @@ const loginUser = async (req, res) => {
     try{
         const {id, name} = req.body
         const user = await userModel.findOne({id})
-        if (!constuser){
+        if (!user){
             return res.status(404).json({message : "User not found, please sing up!", error : error.message})
         }
         return res.status(200).json({message: "Login successfully!"})
